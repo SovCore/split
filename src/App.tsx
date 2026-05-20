@@ -4,6 +4,7 @@ import SplitFlow from './SplitFlow';
 import AssembleFlow from './AssembleFlow';
 import initWasm from './assets/sovcore_wasm_engine.js';
 import { DemoGateWrapper } from './DemoGateWrapper';
+import logo from './assets/logo.jpg';
 
 export default function App() {
   const [topState, dispatch] = useReducer(topLevelReducer, TopLevelState.INITIALIZING);
@@ -47,12 +48,8 @@ export default function App() {
         {/* TopNavBar */}
         <nav className="bg-surface dark:bg-background text-primary dark:text-primary-fixed-dim font-headline-lg text-headline-lg docked full-width top-0 border-b border-outline-variant/20 flat no shadows flex justify-between items-center px-margin h-16 w-full max-w-container-max-width mx-auto">
           <div className="font-headline-lg text-headline-lg font-bold text-on-surface dark:text-on-background flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary dark:text-primary-fixed-dim" style={{ fontVariationSettings: "'FILL' 1" }}>security</span>
+            <img src={logo} alt="SovCore Logo" className="w-8 h-8 rounded-full" />
             SovCore Split
-          </div>
-          <div className="flex space-x-4">
-            <span className="material-symbols-outlined text-on-surface-variant font-medium hover:bg-surface-container-low transition-colors scale-95 active:bg-surface-container p-2 rounded-lg cursor-pointer">shield</span>
-            <span className="material-symbols-outlined text-on-surface-variant font-medium hover:bg-surface-container-low transition-colors scale-95 active:bg-surface-container p-2 rounded-lg cursor-pointer">settings</span>
           </div>
         </nav>
 

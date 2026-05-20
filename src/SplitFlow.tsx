@@ -120,6 +120,38 @@ const handleMath = async () => {
     onComplete();
   };
 
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const sharesHtml = shares.map((share, i) => `
+      <div style="margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; font-family: monospace;">
+        <h3>SHARD #${i + 1}</h3>
+        <p style="word-break: break-all;">${share}</p>
+      </div>
+    `).join('');
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>SovCore Split - Paper Backup</title>
+          <style>
+            body { font-family: sans-serif; padding: 40px; }
+            h1 { color: #000; }
+          </style>
+        </head>
+        <body>
+          <h1>SovCore Split - Paper Backup</h1>
+          <p>Threshold (k): ${k}, Total Shards (n): ${n}</p>
+          <hr/>
+          ${sharesHtml}
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
+  };
+
   return (
     <div className="max-w-3xl mx-auto space-y-8 animate-fade-in">
       {/* State: IDLE / PAYLOAD_INGESTION */}
@@ -275,18 +307,22 @@ const handleMath = async () => {
       {/* State: EXPORTING */}
       {subState === SplitSubState.EXPORTING && (
         <>
-          <div className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-outline-variant/20 pb-6">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                  <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
-                </div>
-                <h1 className="font-display-lg text-headline-lg-mobile md:text-display-lg text-on-surface">Cryptographic Split Complete</h1>
+          <div className="mb-10 border-b border-outline-variant/20 pb-6">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
               </div>
-              <p className="text-on-surface-variant max-w-2xl mt-4">The master secret has been successfully fragmented into {n} independent shares. A threshold of {k} shares is required for reconstruction.</p>
+              <h1 className="font-display-lg text-headline-lg-mobile md:text-display-lg text-on-surface">Cryptographic Split Complete</h1>
             </div>
-            <div className="flex gap-3">
-              <button className="bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant/50 px-6 py-3 rounded-DEFAULT font-label-sm text-label-sm transition-colors flex items-center gap-2">
+            <p className="text-on-surface-variant max-w-2xl mt-4">
+              The master secret has been successfully fragmented into {n} independent shares. A threshold of {k} shares is required for reconstruction.
+            </p>
+
+            <div className="flex flex-wrap gap-3 mt-8">
+              <button
+                onClick={handlePrint}
+                className="bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant/50 px-6 py-3 rounded-DEFAULT font-label-sm text-label-sm transition-colors flex items-center gap-2"
+              >
                 <span className="material-symbols-outlined text-sm">print</span>
                 Print Paper Backup Vault
               </button>

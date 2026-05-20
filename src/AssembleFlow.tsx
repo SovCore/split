@@ -9,6 +9,7 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
   const [shares, setShares] = useState<string[]>([]);
   const [errorIndex, setErrorIndex] = useState<number | null>(null);
   const [reconstructedPayload, setReconstructedPayload] = useState<string | null>(null);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const handleSetThreshold = () => {
     dispatch({ type: "SET_RECOVERY_THRESHOLD", payload: { k } });
@@ -51,7 +52,8 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
     } catch (e) {
       console.error("Reconstruction failed:", e);
       // In a real app we might differentiate between checksum failure and crash
-      dispatch({ type: "CRASH_REJECTION" });
+      setShowErrorModal(true);
+      dispatch({ type: "VALIDATION_FAILURE" });
     }
   };
 
@@ -190,6 +192,27 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {showErrorModal && (
+        <div className="fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm flex items-center justify-center p-6">
+          <div className="bg-surface-container-highest border border-error/30 rounded-xl shadow-2xl max-w-md w-full p-8 animate-in fade-in zoom-in duration-200">
+            <div className="flex items-center gap-4 mb-4 text-error">
+              <span className="material-symbols-outlined text-4xl">error</span>
+              <h2 className="font-headline-lg text-2xl">Reconstruction Failed</h2>
+            </div>
+            <p className="text-on-surface-variant mb-8 leading-relaxed">
+              The shares provided are mathematically mismatched or contain formatting errors (like extra spaces). Please verify your inputs and try again.
+            </p>
+            <button
+              onClick={() => setShowErrorModal(false)}
+              className="w-full bg-primary text-on-primary font-bold py-3 px-4 rounded transition-colors hover:bg-primary/90"
+            >
+              Check Shards
+            </button>
           </div>
         </div>
       )}
