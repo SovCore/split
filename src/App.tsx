@@ -2,7 +2,7 @@ import { useEffect, useReducer } from 'react';
 import { TopLevelState, topLevelReducer } from './fsm';
 import SplitFlow from './SplitFlow';
 import AssembleFlow from './AssembleFlow';
-import initWasm from 'sovcore-wasm-engine';
+import initWasm from './assets/sovcore_wasm_engine.js';
 import { DemoGateWrapper } from './DemoGateWrapper';
 
 export default function App() {

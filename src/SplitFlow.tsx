@@ -1,12 +1,13 @@
 import { useReducer, useRef, useState, useEffect } from 'react';
 import { SplitSubState, splitReducer } from './fsm';
-import * as wasm from 'sovcore-wasm-engine';
+import * as wasm from './assets/sovcore_wasm_engine.js';
 
 export default function SplitFlow({ onComplete }: { onComplete: () => void }) {
   const [subState, dispatch] = useReducer(splitReducer, SplitSubState.IDLE);
   
   // INV-1: Uncontrolled reference for secret input
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const secretRef = useRef<string>("");
   const [k, setK] = useState(3);
   const [n, setN] = useState(5);
@@ -33,6 +34,34 @@ export default function SplitFlow({ onComplete }: { onComplete: () => void }) {
       inputRef.current.value = "";
     }
     dispatch({ type: "CONFIRM_INGESTION" });
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    dispatch({ type: "INGEST_PAYLOAD" });
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target?.result;
+      if (typeof content === 'string') {
+        secretRef.current = content;
+      } else if (content instanceof ArrayBuffer) {
+        // Handle binary files if needed, for now converting to string or handling as bytes
+        const decoder = new TextDecoder();
+        secretRef.current = decoder.decode(content);
+      }
+
+      // Memory hardening: Clear the file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      dispatch({ type: "CONFIRM_INGESTION" });
+    };
+
+    // For now we read as text, but could be array buffer for raw bytes
+    reader.readAsText(file);
   };
 
 const handleMath = async () => {
@@ -110,7 +139,16 @@ const handleMath = async () => {
               <span className="material-symbols-outlined text-[18px]">text_fields</span>
               <span>Text String</span>
             </button>
-            <button className="px-6 py-2 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded font-label-sm text-label-sm flex items-center space-x-2">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileUpload}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="px-6 py-2 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded font-label-sm text-label-sm flex items-center space-x-2"
+            >
               <span className="material-symbols-outlined text-[18px]">upload_file</span>
               <span>File Stream</span>
             </button>
