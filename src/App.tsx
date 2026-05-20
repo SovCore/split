@@ -58,7 +58,7 @@ export default function App() {
               rel="noopener noreferrer"
               className="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors flex items-center gap-1"
             >
-              Market Site
+              Discover SovCore
               <span className="material-symbols-outlined text-[16px]">open_in_new</span>
             </a>
           </div>
