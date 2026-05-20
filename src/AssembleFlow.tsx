@@ -1,6 +1,6 @@
 import { useReducer, useState } from 'react';
 import { RecoverSubState, recoverReducer } from './fsm';
-import * as wasm from 'sovcore-wasm-engine';
+import * as wasm from './assets/sovcore_wasm_engine.js';
 
 export default function AssembleFlow({ onComplete }: { onComplete: () => void }) {
   const [subState, dispatch] = useReducer(recoverReducer, RecoverSubState.IDLE);
@@ -9,6 +9,7 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
   const [shares, setShares] = useState<string[]>([]);
   const [errorIndex, setErrorIndex] = useState<number | null>(null);
   const [reconstructedPayload, setReconstructedPayload] = useState<string | null>(null);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const handleSetThreshold = () => {
     dispatch({ type: "SET_RECOVERY_THRESHOLD", payload: { k } });
@@ -20,6 +21,22 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
     next[index] = val;
     setShares(next);
     if (errorIndex === index) setErrorIndex(null);
+  };
+
+  const handleFileUpload = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target?.result;
+      if (typeof content === 'string') {
+        handleUpdateShare(index, content.trim());
+      }
+      // Reset input so the same file can be uploaded again if needed
+      e.target.value = "";
+    };
+    reader.readAsText(file);
   };
 
   const handleInterpolate = async () => {
@@ -35,7 +52,8 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
     } catch (e) {
       console.error("Reconstruction failed:", e);
       // In a real app we might differentiate between checksum failure and crash
-      dispatch({ type: "CRASH_REJECTION" });
+      setShowErrorModal(true);
+      dispatch({ type: "VALIDATION_FAILURE" });
     }
   };
 
@@ -103,10 +121,21 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
                 <div key={i} className={`bg-surface-container-lowest border-2 ${errorIndex === i ? 'border-error/50' : 'border-outline-variant'} rounded-DEFAULT p-6 relative overflow-hidden`}>
                   {errorIndex === i && <div className="absolute top-0 left-0 w-1 h-full bg-error"></div>}
                   <div className={`flex justify-between items-center mb-4 border-b ${errorIndex === i ? 'border-error/20' : 'border-outline-variant/30'} pb-2`}>
-                    <label className="font-code-md text-code-md text-on-surface flex items-center gap-2">
-                      <span className={`material-symbols-outlined text-sm ${errorIndex === i ? 'text-error' : 'text-outline'}`}>{errorIndex === i ? 'key_off' : 'key'}</span>
-                      Shard Input {i + 1}
-                    </label>
+                    <div className="flex items-center gap-4">
+                      <label className="font-code-md text-code-md text-on-surface flex items-center gap-2">
+                        <span className={`material-symbols-outlined text-sm ${errorIndex === i ? 'text-error' : 'text-outline'}`}>{errorIndex === i ? 'key_off' : 'key'}</span>
+                        Shard Input {i + 1}
+                      </label>
+                      <label className="cursor-pointer text-primary hover:text-primary-container flex items-center gap-1 font-label-sm text-label-sm">
+                        <span className="material-symbols-outlined text-[16px]">upload_file</span>
+                        <span>Upload .share</span>
+                        <input
+                          type="file"
+                          className="hidden"
+                          onChange={(e) => handleFileUpload(i, e)}
+                        />
+                      </label>
+                    </div>
                     {errorIndex === i ? (
                       <span className="bg-error-container text-on-error-container px-2 py-1 rounded font-label-sm text-label-sm border border-error/30 flex items-center gap-1">
                         <span className="material-symbols-outlined text-[12px]">warning</span> Invalid
@@ -163,6 +192,27 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {showErrorModal && (
+        <div className="fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm flex items-center justify-center p-6">
+          <div className="bg-surface-container-highest border border-error/30 rounded-xl shadow-2xl max-w-md w-full p-8 animate-in fade-in zoom-in duration-200">
+            <div className="flex items-center gap-4 mb-4 text-error">
+              <span className="material-symbols-outlined text-4xl">error</span>
+              <h2 className="font-headline-lg text-2xl">Reconstruction Failed</h2>
+            </div>
+            <p className="text-on-surface-variant mb-8 leading-relaxed">
+              The shares provided are mathematically mismatched or contain formatting errors (like extra spaces). Please verify your inputs and try again.
+            </p>
+            <button
+              onClick={() => setShowErrorModal(false)}
+              className="w-full bg-primary text-on-primary font-bold py-3 px-4 rounded transition-colors hover:bg-primary/90"
+            >
+              Check Shards
+            </button>
           </div>
         </div>
       )}

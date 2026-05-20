@@ -15,7 +15,7 @@ describe('TopLevel FSM', () => {
 
 describe('Split FSM', () => {
   it('should transition through standard split flow', () => {
-    let state = SplitSubState.IDLE;
+    let state: SplitSubState = SplitSubState.IDLE;
     state = splitReducer(state, { type: 'INGEST_PAYLOAD' });
     expect(state).toBe(SplitSubState.PAYLOAD_INGESTION);
     
