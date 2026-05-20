@@ -162,8 +162,16 @@ const handleMath = async () => {
               <span className="material-symbols-outlined text-[16px]">data_object</span>
               <span>Ingestion Phase</span>
             </div>
-            <h1 className="font-display-lg text-display-lg text-on-surface">Secret Ingestion</h1>
-            <p className="text-on-surface-variant">Provide the raw cryptographic material to be sharded. Data remains localized within the secure browser execution environment.</p>
+            <div className="flex items-center gap-2">
+              <h1 className="font-display-lg text-display-lg text-on-surface">Secret Ingestion</h1>
+              <div className="group relative">
+                <span className="material-symbols-outlined text-outline-variant cursor-help text-[20px]">info</span>
+                <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-64 p-3 bg-inverse-surface text-inverse-on-surface text-[12px] rounded-lg shadow-xl z-10">
+                  Data ingested here is processed entirely within your browser's volatile RAM. It is never transmitted over the network or stored on disk.
+                </div>
+              </div>
+            </div>
+            <p className="text-on-surface-variant">Provide the raw cryptographic material to be sharded. The system utilizes a provider-blind, local-first execution model to ensure absolute privacy.</p>
           </div>
 
           <div className="flex p-1 bg-surface-container-low border border-outline-variant/20 rounded-lg inline-flex">
@@ -198,7 +206,7 @@ const handleMath = async () => {
               <textarea 
                 ref={inputRef}
                 className="w-full h-48 bg-surface-container-low border border-outline-variant/30 p-4 font-code-md text-code-md text-on-surface resize-none focus:ring-0 focus:border-primary focus:border-2 transition-all" 
-                placeholder="BEGIN RSA PRIVATE KEY..." 
+                placeholder="Begin material that you want to split..."
                 spellCheck="false"
               />
             ) : (
@@ -228,16 +236,32 @@ const handleMath = async () => {
       {(subState === SplitSubState.CONFIGURING || subState === SplitSubState.PROCESSING) && (
         <>
           <div>
-            <h1 className="font-display-lg text-display-lg text-on-background mb-2">Cryptographic Split Configuration</h1>
+            <div className="flex items-center gap-2 mb-2">
+              <h1 className="font-display-lg text-display-lg text-on-background">Cryptographic Split Configuration</h1>
+              <div className="group relative">
+                <span className="material-symbols-outlined text-outline-variant cursor-help text-[20px]">info</span>
+                <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-80 p-3 bg-inverse-surface text-inverse-on-surface text-[12px] rounded-lg shadow-xl z-10">
+                  Shamir's Secret Sharing (SSS) mathematically ensures that the original secret cannot be reconstructed unless the minimum threshold of shards is provided.
+                </div>
+              </div>
+            </div>
             <p className="text-on-surface-variant max-w-2xl">Define the threshold parameters for secret sharing. The system utilizes Shamir's Secret Sharing to distribute the payload across non-overlapping nodes.</p>
           </div>
 
-          <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-4 flex items-center gap-4">
+            <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-4 flex items-center gap-4 relative overflow-hidden">
             <div className="bg-[#e4e9ee] text-primary p-2 rounded-full flex items-center justify-center">
               <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>memory</span>
             </div>
-            <div>
-              <div className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">System Status</div>
+            <div className="flex-1">
+              <div className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1 flex items-center gap-2">
+                System Status
+                <div className="group relative">
+                  <span className="material-symbols-outlined text-outline-variant cursor-help text-[14px]">info</span>
+                  <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-72 p-3 bg-inverse-surface text-inverse-on-surface text-[11px] rounded-lg shadow-xl z-10 normal-case font-normal">
+                    Memory Hardening Active: The system uses uncontrolled JS references and explicit WASM linear memory zeroization to prevent data leakage.
+                  </div>
+                </div>
+              </div>
               <div className="font-code-md text-code-md text-primary font-bold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-primary inline-block animate-pulse"></span>
                 {subState === SplitSubState.PROCESSING ? 'Computing Galois Field Matrices...' : 'Payload Loaded In Secured RAM'}

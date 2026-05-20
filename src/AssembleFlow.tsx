@@ -70,7 +70,15 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
       {subState === RecoverSubState.IDLE && (
         <div className="max-w-2xl mx-auto space-y-8 pt-10">
           <div className="space-y-2">
-            <h1 className="font-display-lg text-display-lg text-on-surface">Assemble Shards</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="font-display-lg text-display-lg text-on-surface">Assemble Shards</h1>
+              <div className="group relative">
+                <span className="material-symbols-outlined text-outline-variant cursor-help text-[20px]">info</span>
+                <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-80 p-3 bg-inverse-surface text-inverse-on-surface text-[12px] rounded-lg shadow-xl z-10">
+                  Reconstruction executes reverse Lagrange interpolation across your provided shards entirely on the client side.
+                </div>
+              </div>
+            </div>
             <p className="text-on-surface-variant">How many shards are required to reconstruct the master secret?</p>
           </div>
           <div className="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-6">
@@ -99,7 +107,15 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
         subState === RecoverSubState.CRASH_REJECTION) && (
         <div className="space-y-8">
           <div className="mb-gutter max-w-3xl">
-            <h1 className="font-display-lg text-display-lg text-on-surface mb-2 tracking-tight">Recovery Matrix</h1>
+            <div className="flex items-center gap-2 mb-2">
+              <h1 className="font-display-lg text-display-lg text-on-surface tracking-tight">Recovery Matrix</h1>
+              <div className="group relative">
+                <span className="material-symbols-outlined text-outline-variant cursor-help text-[20px]">info</span>
+                <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-72 p-3 bg-inverse-surface text-inverse-on-surface text-[12px] rounded-lg shadow-xl z-10">
+                  Verification Active: The system validates SHA-256 checksums embedded in shard metadata before executing interpolation.
+                </div>
+              </div>
+            </div>
             <p className="text-on-surface-variant text-body-md max-w-2xl leading-relaxed">
               Input the requisite cryptographic shards below to reconstruct the original secret.
             </p>

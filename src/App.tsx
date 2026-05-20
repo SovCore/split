@@ -127,11 +127,20 @@ export default function App() {
 
         {/* Footer */}
         <footer className="bg-surface-container dark:bg-surface-container text-on-surface-variant font-code-md text-code-md font-bold text-primary w-full h-12 border-t border-outline-variant/20 flat no shadows fixed bottom-0 flex items-center justify-between px-margin py-2 z-50">
-          <div className="text-on-surface-variant/70">SovCore v2.4.1 | Cryptographic Institutional Standard</div>
+          <div className="text-on-surface-variant/70">Cryptographic Institutional Standard</div>
           <div className="flex space-x-6">
-            <a className="text-on-surface-variant/70 hover:text-primary transition-colors cursor-pointer">Security Policy</a>
-            <a className="text-on-surface-variant/70 hover:text-primary transition-colors cursor-pointer">Technical Docs</a>
-            <a className="text-on-surface-variant/70 hover:text-primary transition-colors cursor-pointer">Audit Logs</a>
+            <a className="text-on-surface-variant/40 cursor-not-allowed flex items-center gap-1" title="Coming Soon">
+              Security Policy
+              <span className="text-[10px] bg-surface-container-high px-1 rounded">Soon</span>
+            </a>
+            <a
+              href="https://github.com/SovCore/split"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-on-surface-variant/70 hover:text-primary transition-colors cursor-pointer"
+            >
+              Technical Docs
+            </a>
           </div>
         </footer>
       </div>
