@@ -13,5 +13,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+  }, build: {
+    sourcemap: false, // Ensures original TypeScript code cannot be reverse-engineered
   }
 })
