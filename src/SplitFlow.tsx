@@ -35,22 +35,54 @@ export default function SplitFlow({ onComplete }: { onComplete: () => void }) {
     dispatch({ type: "CONFIRM_INGESTION" });
   };
 
-  const handleMath = async () => {
-    dispatch({ type: "EXECUTE_MATH" });
-    try {
-      // Execute Galois Field GF(2^8) math via WASM
-      const generatedShares = wasm.split_secret(secretRef.current, k, n);
-      setShares(Array.from(generatedShares));
-      
-      // Zeroize JS memory reference
-      secretRef.current = "";
-      
-      dispatch({ type: "MATH_SUCCESS" });
-    } catch (e) {
-      console.error("Split math failed", e);
-      // In production, we would handle this error state in the FSM
+const handleMath = async () => {
+  dispatch({ type: "EXECUTE_MATH" });
+  
+  let ptr = 0;
+  let len = 0;
+  let encodedSecret: Uint8Array | null = null;
+
+  try {
+    // 1. Transform the JavaScript string into raw UTF-8 bytes
+    const encoder = new TextEncoder();
+    encodedSecret = encoder.encode(secretRef.current);
+    len = encodedSecret.length;
+
+    // 2. Request a dedicated memory block on the WASM linear heap
+    ptr = wasm.alloc_buffer(len);
+
+    // 3. Extract the underlying WebAssembly Memory buffer and create a writeable view
+    const wasmMemory = wasm.get_memory() as WebAssembly.Memory;
+    const memoryView = new Uint8Array(wasmMemory.buffer, ptr, len);
+
+    // 4. Stream the raw cleartext bytes directly across the boundary into WASM memory
+    memoryView.set(encodedSecret);
+
+    // 5. Execute the cryptographic split using the memory coordinates
+    const generatedShares = wasm.split_secret_secure(ptr, len, k, n);
+    setShares(Array.from(generatedShares));
+    
+    dispatch({ type: "MATH_SUCCESS" });
+  } catch (e) {
+    console.error("Split math failed", e);
+    // Handle error states inside your FSM here
+  } finally {
+    // ── FORENSIC CLEANUP MATRIX ──
+    
+    // 1. Scrub the transient JavaScript byte array out of volatile browser RAM
+    if (encodedSecret) {
+      encodedSecret.fill(0);
     }
-  };
+    
+    // 2. Obliterate the temporary reference string
+    secretRef.current = "";
+
+    // 3. Reclaim the WASM heap window to prevent linear memory leaks
+    if (ptr !== 0 && len !== 0) {
+      wasm.dealloc_buffer(ptr, len);
+    }
+  }
+};
 
   const handlePurge = () => {
     dispatch({ type: "PURGE_SHRED" });
