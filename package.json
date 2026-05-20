@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "deploy": "pnpm build && wrangler pages deploy dist"
+    "preview": "pnpm run build && wrangler dev",
+    "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
     "react": "^19.2.6",
@@ -17,6 +17,7 @@
     "vite-plugin-wasm": "^3.6.0"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.37.2",
     "@eslint/js": "^10.0.1",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.11",
@@ -39,6 +40,7 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.6",
+    "wrangler": "^4.93.0"
   }
 }
