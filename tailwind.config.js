@@ -69,12 +69,12 @@ export default {
         "container-max-width": "1280px"
       },
       fontFamily: {
-        "code-md": ["IBM Plex Mono"],
-        "label-sm": ["IBM Plex Mono"],
-        "headline-lg": ["IBM Plex Sans"],
-        "display-lg": ["IBM Plex Sans"],
-        "headline-lg-mobile": ["IBM Plex Sans"],
-        "body-md": ["IBM Plex Sans"]
+        "code-md": ["JetBrains Mono"],
+        "label-sm": ["JetBrains Mono"],
+        "headline-lg": ["Inter"],
+        "display-lg": ["Inter"],
+        "headline-lg-mobile": ["Inter"],
+        "body-md": ["Inter"]
       },
       fontSize: {
         "code-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
