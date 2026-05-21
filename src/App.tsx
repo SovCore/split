@@ -46,7 +46,7 @@ export default function App() {
     <DemoGateWrapper>
       <div className="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md">
         {/* TopNavBar */}
-        <nav className="bg-surface dark:bg-background text-primary dark:text-primary-fixed-dim font-headline-lg text-headline-lg docked full-width top-0 border-b border-outline-variant/20 flat no shadows flex justify-between items-center px-margin h-16 w-full max-w-container-max-width mx-auto">
+        <nav className="bg-surface dark:bg-background text-primary dark:text-primary-fixed-dim font-headline-lg text-headline-lg docked full-width top-0 border-b border-outline-variant/20 flat no shadows flex justify-between items-center px-margin h-16 w-full max-w-container-max-width mx-auto print:hidden">
           <div className="font-headline-lg text-headline-lg font-bold text-on-surface dark:text-on-background flex items-center gap-2">
             <img src={logo} alt="SovCore Logo" className="w-8 h-8 rounded-full" />
             SovCore Split
@@ -67,7 +67,7 @@ export default function App() {
         <div className="flex flex-1 relative w-full max-w-container-max-width mx-auto">
           {/* SideNavBar */}
           {(topState !== TopLevelState.INITIALIZING && topState !== TopLevelState.UNSUPPORTED_ENVIRONMENT) && (
-            <aside className="bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary-container font-label-sm text-label-sm h-full w-64 flex flex-col border-r border-outline-variant/20 flat no shadows fixed left-0 top-16 bottom-0 z-40 overflow-y-auto hidden md:flex">
+            <aside className="bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary-container font-label-sm text-label-sm h-full w-64 flex flex-col border-r border-outline-variant/20 flat no shadows fixed left-0 top-16 bottom-0 z-40 overflow-y-auto hidden md:flex print:hidden">
               <div className="p-6">
                 <div className="font-headline-lg text-headline-lg text-primary mb-2">Workbench</div>
                 <div className="text-on-surface-variant">Institutional Security</div>
@@ -96,7 +96,7 @@ export default function App() {
           )}
 
           {/* Main Content Area */}
-          <main className={`flex-1 ${topState !== TopLevelState.INITIALIZING && topState !== TopLevelState.UNSUPPORTED_ENVIRONMENT ? 'md:ml-64' : ''} p-margin pt-24 pb-24 min-h-[calc(100vh-64px-48px)]`}>
+          <main className={`flex-1 ${topState !== TopLevelState.INITIALIZING && topState !== TopLevelState.UNSUPPORTED_ENVIRONMENT ? 'md:ml-64 print:ml-0' : ''} p-margin pt-24 pb-24 print:p-0 print:pt-0 min-h-[calc(100vh-64px-48px)]`}>
             {topState === TopLevelState.INITIALIZING && (
               <div className="flex flex-col items-center justify-center h-full">
                 <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin mb-4"></div>
@@ -137,7 +137,7 @@ export default function App() {
         </div>
 
         {/* Footer */}
-        <footer className="bg-surface-container dark:bg-surface-container text-on-surface-variant font-code-md text-code-md font-bold text-primary w-full h-12 border-t border-outline-variant/20 flat no shadows fixed bottom-0 flex items-center justify-between px-margin py-2 z-50">
+        <footer className="bg-surface-container dark:bg-surface-container text-on-surface-variant font-code-md text-code-md font-bold text-primary w-full h-12 border-t border-outline-variant/20 flat no shadows fixed bottom-0 flex items-center justify-between px-margin py-2 z-50 print:hidden">
           <div className="text-on-surface-variant/70">© 2026 SovCore. All rights reserved.</div>
           <div className="flex space-x-6">
             <a className="text-on-surface-variant/40 cursor-not-allowed flex items-center gap-1" title="Coming Soon">
