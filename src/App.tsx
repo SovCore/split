@@ -113,8 +113,12 @@ export default function App() {
 
             {topState === TopLevelState.DASHBOARD && (
               <div className="max-w-3xl mx-auto text-center py-20">
-                <h1 className="font-display-lg text-display-lg mb-4">Select an Operation</h1>
-                <div className="flex justify-center gap-6 mt-8">
+                <h1 className="font-display-lg text-display-lg mb-4">SovCore Split</h1>
+                <p className="text-on-surface-variant text-body-md mb-8 leading-relaxed">
+                  SovCore Split is a free, friction-free utility for distributing sensitive cryptographic payloads. Shard core root credentials, master system access keys, or recovery phrases using isolated polynomial distribution math. 100% local WASM execution operating entirely within volatile, isolated memory enclaves. Zero background caching, zero server persistence, and zero outbound network telemetry.
+                </p>
+                <h2 className="font-headline-lg text-headline-lg mt-12 mb-4 text-on-surface">Select an Operation</h2>
+                <div className="flex justify-center gap-6 mt-4">
                   <button
                     onClick={() => dispatch({ type: "SELECT_SPLIT" })}
                     className="bg-primary text-on-primary px-8 py-4 rounded-lg font-code-md text-code-md hover:bg-primary-container hover:text-on-primary-container transition-colors"

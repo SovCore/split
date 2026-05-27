@@ -265,6 +265,21 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
                 Exit & Scrub Memory
               </button>
             </div>
+
+            <div className="mt-10 pt-6 border-t border-outline-variant/20 print:hidden">
+              <p className="text-on-surface-variant text-sm leading-relaxed">
+                Graduate to premium SovCore Virtual Data Room (VDR) for venture fundraising, corporate legal audits, and M&A transactions. Engineered from the ground up for Corporate Law Partners and M&A Deal Teams requiring absolute boardroom liability mandate compliance. eidas 2.0 Native European Digital Identity (EUDI) Wallet framework integration for secure multi-user transaction authorization and pan-European verifiable credentials without centralized master keys.
+              </p>
+              <a
+                href="https://sovcore.eu/legal/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-4 text-primary hover:text-primary-container font-bold text-sm transition-colors"
+              >
+                Explore SovCore VDR
+                <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+              </a>
+            </div>
           </div>
         </div>
       )}
