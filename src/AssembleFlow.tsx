@@ -266,15 +266,33 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
               </button>
             </div>
 
-            <div className="mt-10 pt-6 border-t border-outline-variant/20 print:hidden">
-              <p className="text-on-surface-variant text-sm leading-relaxed">
-                Graduate to premium SovCore Virtual Data Room (VDR) for venture fundraising, corporate legal audits, and M&A transactions. Engineered from the ground up for Corporate Law Partners and M&A Deal Teams requiring absolute boardroom liability mandate compliance. eidas 2.0 Native European Digital Identity (EUDI) Wallet framework integration for secure multi-user transaction authorization and pan-European verifiable credentials without centralized master keys.
-              </p>
+            <div className="mt-10 pt-6 border-t border-outline-variant/20 print:hidden space-y-4">
+              <div className="space-y-1">
+                <h3 className="font-headline-sm text-sm text-on-surface font-bold">Ready to graduate?</h3>
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  Graduate to premium SovCore Virtual Data Room (VDR) for venture fundraising, corporate legal audits, and M&A transactions. Engineered from the ground up for Corporate Law Partners and M&A Deal Teams requiring absolute boardroom liability mandate compliance.
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="font-headline-sm text-sm text-on-surface font-bold uppercase tracking-tight">eIDAS 2.0</h3>
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  Native European Digital Identity (EUDI) Wallet framework integration for secure multi-user transaction authorization and pan-European verifiable credentials without centralized master keys.
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="font-headline-sm text-sm text-on-surface font-bold uppercase tracking-tight">NIS 2.0</h3>
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  Institutional compliance with NIS 2.0 requirements for supply chain security and incident reporting, ensuring your cryptographic infrastructure meets European Union cybersecurity standards.
+                </p>
+              </div>
+
               <a
                 href="https://sovcore.eu/legal/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-4 text-primary hover:text-primary-container font-bold text-sm transition-colors"
+                className="inline-flex items-center gap-2 mt-2 text-primary hover:text-primary-container font-bold text-sm transition-colors"
               >
                 Explore SovCore VDR
                 <span className="material-symbols-outlined text-[16px]">open_in_new</span>
