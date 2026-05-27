@@ -112,7 +112,7 @@ export default function App() {
             )}
 
             {topState === TopLevelState.DASHBOARD && (
-              <div className="max-w-3xl mx-auto text-center py-20">
+              <div className="max-w-3xl mx-auto text-center pt-8 pb-20">
                 <h1 className="font-display-lg text-display-lg mb-4">SovCore Split</h1>
                 <p className="text-on-surface-variant text-body-md mb-8 leading-relaxed">
                   SovCore Split is a free, friction-free utility for distributing sensitive cryptographic payloads. Shard core root credentials, master system access keys, or recovery phrases using isolated polynomial distribution math.<br /><br />
