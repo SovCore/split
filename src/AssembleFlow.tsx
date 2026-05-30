@@ -214,56 +214,93 @@ export default function AssembleFlow({ onComplete }: { onComplete: () => void })
 
       {/* Error Modal */}
       {showErrorModal && (
-        <div className="fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm flex items-center justify-center p-6">
-          <div className="bg-surface-container-highest border border-error/30 rounded-xl shadow-2xl max-w-md w-full p-8 animate-in fade-in zoom-in duration-200">
-            <div className="flex items-center gap-4 mb-4 text-error">
-              <span className="material-symbols-outlined text-4xl">error</span>
-              <h2 className="font-headline-lg text-2xl">Reconstruction Failed</h2>
+        <div className="fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm overflow-y-auto">
+          <div className="min-h-full flex items-center justify-center p-6">
+            <div className="bg-surface-container-highest border border-error/30 rounded-xl shadow-2xl max-w-md w-full p-8 animate-in fade-in zoom-in duration-200">
+              <div className="flex items-center gap-4 mb-4 text-error">
+                <span className="material-symbols-outlined text-4xl">error</span>
+                <h2 className="font-headline-lg text-2xl">Reconstruction Failed</h2>
+              </div>
+              <p className="text-on-surface-variant mb-8 leading-relaxed">
+                The shares provided are mathematically mismatched or contain formatting errors (like extra spaces). Please verify your inputs and try again.
+              </p>
+              <button
+                onClick={() => setShowErrorModal(false)}
+                className="w-full bg-primary text-on-primary font-bold py-3 px-4 rounded transition-colors hover:bg-primary/90"
+              >
+                Check Shards
+              </button>
             </div>
-            <p className="text-on-surface-variant mb-8 leading-relaxed">
-              The shares provided are mathematically mismatched or contain formatting errors (like extra spaces). Please verify your inputs and try again.
-            </p>
-            <button
-              onClick={() => setShowErrorModal(false)}
-              className="w-full bg-primary text-on-primary font-bold py-3 px-4 rounded transition-colors hover:bg-primary/90"
-            >
-              Check Shards
-            </button>
           </div>
         </div>
       )}
 
       {/* State: SUCCESS */}
       {subState === RecoverSubState.SUCCESS && (
-        <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-center justify-center p-6">
-          <div className="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-2xl max-w-3xl w-full p-8 relative">
-            <div className="flex items-center gap-4 mb-6 text-primary">
-              <span className="material-symbols-outlined text-4xl" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
-              <h1 className="font-display-lg text-3xl">Secret Reconstructed</h1>
-            </div>
-            
-            <div className="bg-error-container/20 border border-error/30 p-4 rounded-lg mb-6">
-              <p className="font-label-sm text-label-sm text-error uppercase tracking-widest font-bold flex items-center gap-2">
-                <span className="material-symbols-outlined text-[16px]">warning</span> Security Warning
-              </p>
-              <p className="text-on-surface-variant text-sm mt-1">This secret is held strictly in temporary volatile RAM. If you refresh this browser, close this window, or click exit, this file will be permanently scrubbed from memory.</p>
-            </div>
+        <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm overflow-y-auto">
+          <div className="min-h-full flex items-center justify-center p-6 sm:p-10">
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-2xl max-w-3xl w-full p-8 relative">
+              <div className="flex items-center gap-4 mb-6 text-primary">
+                <span className="material-symbols-outlined text-4xl" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
+                <h1 className="font-display-lg text-3xl">Secret Reconstructed</h1>
+              </div>
 
-            <textarea 
-              readOnly
-              className="w-full h-64 bg-surface-container-low border border-outline-variant p-4 font-code-md text-code-md text-on-surface resize-none focus:ring-0 outline-none select-none custom-scrollbar" 
-              value={reconstructedPayload || "Reconstructing..."}
-              onCopy={e => e.preventDefault()}
-            />
+              <div className="bg-error-container/20 border border-error/30 p-4 rounded-lg mb-6">
+                <p className="font-label-sm text-label-sm text-error uppercase tracking-widest font-bold flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[16px]">warning</span> Security Warning
+                </p>
+                <p className="text-on-surface-variant text-sm mt-1">This secret is held strictly in temporary volatile RAM. If you refresh this browser, close this window, or click exit, this file will be permanently scrubbed from memory.</p>
+              </div>
 
-            <div className="mt-8 flex justify-end gap-4">
-              <button 
-                onClick={handleClose}
-                className="bg-error text-on-error px-6 py-3 rounded font-label-sm text-label-sm transition-colors flex items-center gap-2"
-              >
-                <span className="material-symbols-outlined text-sm">delete_forever</span>
-                Exit & Scrub Memory
-              </button>
+              <textarea
+                readOnly
+                className="w-full h-64 bg-surface-container-low border border-outline-variant p-4 font-code-md text-code-md text-on-surface resize-none focus:ring-0 outline-none select-none custom-scrollbar"
+                value={reconstructedPayload || "Reconstructing..."}
+                onCopy={e => e.preventDefault()}
+              />
+
+              <div className="mt-8 flex justify-end gap-4">
+                <button
+                  onClick={handleClose}
+                  className="bg-error text-on-error px-6 py-3 rounded font-label-sm text-label-sm transition-colors flex items-center gap-2"
+                >
+                  <span className="material-symbols-outlined text-sm">delete_forever</span>
+                  Exit & Scrub Memory
+                </button>
+              </div>
+
+              <div className="mt-10 pt-6 border-t border-outline-variant/20 print:hidden space-y-4">
+                <div className="space-y-1">
+                  <h3 className="font-headline-sm text-sm text-on-surface font-bold">Ready to graduate?</h3>
+                  <p className="text-on-surface-variant text-sm leading-relaxed">
+                    Graduate to premium SovCore Virtual Data Room (VDR) for venture fundraising, corporate legal audits, and M&A transactions. Engineered from the ground up for Corporate Law Partners and M&A Deal Teams requiring absolute boardroom liability mandate compliance.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="font-headline-sm text-sm text-on-surface font-bold uppercase tracking-tight">eIDAS 2.0</h3>
+                  <p className="text-on-surface-variant text-sm leading-relaxed">
+                    Native European Digital Identity (EUDI) Wallet framework integration for secure multi-user transaction authorization and pan-European verifiable credentials without centralized master keys.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="font-headline-sm text-sm text-on-surface font-bold uppercase tracking-tight">NIS 2.0</h3>
+                  <p className="text-on-surface-variant text-sm leading-relaxed">
+                    Institutional compliance with NIS 2.0 requirements for supply chain security and incident reporting, ensuring your cryptographic infrastructure meets European Union cybersecurity standards.
+                  </p>
+                </div>
+
+                <a
+                  href="https://sovcore.eu/legal/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-2 text-primary hover:text-primary-container font-bold text-sm transition-colors"
+                >
+                  Explore SovCore VDR
+                  <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
